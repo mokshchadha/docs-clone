@@ -35,6 +35,9 @@ migrate_working_dir/
 # Web related
 lib/generated_plugin_registrant.dart
 
+#node modules of server
+/server/node_modules
+
 # Symbolication related
 app.*.symbols
 
