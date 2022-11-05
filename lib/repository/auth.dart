@@ -30,7 +30,7 @@ class AuthRepository {
         _localStorageRepository = localStorageRepository;
 
   Future<ErrorModel> signInWithGoogle() async {
-    ErrorModel errorModel = ErrorModel('', null);
+    ErrorModel errorModel = ErrorModel(error: '', data: null);
     try {
       final userData = await _googleSignIn.signIn();
 
@@ -54,18 +54,18 @@ class AuthRepository {
               uid: jsonDecode(response.body)['user']['_id'],
               token: jsonDecode(response.body)['token']);
           _localStorageRepository.setToken(newUser.token);
-          return ErrorModel(null, user);
+          return ErrorModel(error: null, data: user);
         }
       }
     } catch (e) {
-      return ErrorModel(e.toString(), null);
+      return ErrorModel(error: e.toString(), data: null);
     }
 
     return errorModel;
   }
 
   Future<ErrorModel> getUserData() async {
-    ErrorModel errorModel = ErrorModel('', null);
+    ErrorModel errorModel = ErrorModel(error: '', data: null);
     try {
       String? token = await _localStorageRepository.getToken();
       if (token != null && token != '') {
@@ -80,13 +80,18 @@ class AuthRepository {
               User.fromJson(jsonEncode(jsonDecode(response.body)['user']))
                   .copyWith(token: jsonDecode(response.body)['token']);
           _localStorageRepository.setToken(user.token);
-          return ErrorModel(null, user);
+          return ErrorModel(error: null, data: user);
         }
       }
     } catch (e) {
-      return ErrorModel(e.toString(), null);
+      return ErrorModel(error: e.toString(), data: null);
     }
 
     return errorModel;
+  }
+
+  void signOut() async {
+    await _googleSignIn.signOut();
+    _localStorageRepository.setToken('');
   }
 }

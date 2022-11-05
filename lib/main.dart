@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Docs',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -59,6 +60,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     //Scaffold(
     //   body: user != null ? const HomeScreen() : const LoginScreen());
     return MaterialApp.router(
+        title: 'Docs',
+        debugShowCheckedModeBanner: false,
         routeInformationParser: const RoutemasterParser(),
         routerDelegate: RoutemasterDelegate(
           routesBuilder: (context) {
